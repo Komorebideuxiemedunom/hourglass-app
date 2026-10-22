@@ -4,4 +4,15 @@
 main{max-width:720px;margin:0 auto;padding:48px 20px}img.icon{width:96px;height:96px;border-radius:22px;box-shadow:0 8px 24px rgba(0,0,0,.15)}
 h1{font-size:34px;margin:20px 0 6px}h2{font-size:21px;margin-top:32px}p,li{color:var(--muted)}a{color:var(--accent)}
 .card{background:var(--card);border-radius:20px;padding:20px 22px;margin:22px 0;box-shadow:0 4px 16px rgba(0,0,0,.05)}
-footer{margin-top:40px;font-size:14px;color:var(--muted)}
+footer{margin-top:40px;font-size:14px;color:var(--muted)}.fields{display:grid;grid-template-columns:1fr 1fr;gap:14px 18px}
+.fields label{display:flex;flex-direction:column;gap:4px;font-size:14px;color:var(--muted)}
+.fields input,.fields select{width:100%;font:inherit;font-size:17px;padding:9px 10px;border-radius:10px;border:1px solid rgba(127,127,127,.35);background:var(--bg);color:var(--ink)}
+#result{margin-top:18px}#result p{color:var(--ink)}#result .big{font-size:22px}
+.warn{background:rgba(217,130,43,.15);border-radius:12px;padding:10px 12px}
+.table{overflow-x:auto}.table table{width:100%;border-collapse:collapse;font-size:15px}
+.table th{text-align:left;font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);padding:6px 8px 6px 0}
+.table td{padding:7px 8px 7px 0;border-top:1px solid rgba(127,127,127,.2);color:var(--ink)}
+.note{font-size:13px}
+.cta{background:var(--accent);border-radius:20px;padding:20px 22px;margin:28px 0}.cta p,.cta strong{color:#fff}
+.cta .btn{display:inline-block;background:#fff;color:#9A5414;font-weight:700;border-radius:12px;padding:10px 16px;text-decoration:none;margin-top:6px}
+@media (max-width:560px){.fields{grid-template-columns:1fr}}
