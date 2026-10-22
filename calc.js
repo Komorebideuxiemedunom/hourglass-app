@@ -38,7 +38,7 @@
 
   document.addEventListener("DOMContentLoaded", () => {
     const run = document.body.dataset.mode === "fr" ? fr : us;
-    if ($("state")) $("state").innerHTML = STATES.map((s) => `<option value="${s.id}"${s.id === "ca" ? " selected" : ""}>${s.name}</option>`).join("");
+    if ($("state")) $("state").innerHTML = STATES.map((s) => `<option value="${s.id}"${s.id === (document.body.dataset.state || "ca") ? " selected" : ""}>${s.name}</option>`).join("");
     $("calc").addEventListener("submit", (e) => e.preventDefault());
     $("calc").querySelectorAll("input, select").forEach((el) => el.addEventListener("input", run));
     run();
