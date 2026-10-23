@@ -116,6 +116,7 @@ def page(sid, name, total, night, months, note):
 <div class="cta"><p><strong>Logging every drive by hand is where hours get lost.</strong> Hourglass times each drive with one tap, counts night hours from real sunset and sunrise, and exports a clean PDF log to sign. On iPhone, no account, no ads.</p><a class="btn" href="https://apps.apple.com/app/id6818433938">Get Hourglass</a></div>
 {"".join(f"<h2>{q}</h2><p>{a}</p>" for q, a in faq)}
 <p class="note">Requirements as published in 2026 (IIHS graduated licensing table). Always confirm on the official {name} website. Hourglass is a log book, not legal advice.</p>
+<p>Prefer paper? <a href="../printable-driving-log.html">Free printable driving log</a>, set up for {name}.</p>
 <h2>Other states</h2><p class="others">{others}</p>
 <footer><a href="../index.html">Hourglass</a> · <a href="../privacy.html">Privacy</a> · © 2026 Lucas Dansac</footer></main></body></html>
 """
@@ -138,11 +139,44 @@ calc = open("calc.js").read()
 calc = re.sub(r"const STATES = \[.*?\];", "const STATES = " + json.dumps(data, ensure_ascii=False) + ";", calc, count=1, flags=re.S)
 open("calc.js", "w").write(calc)
 
+# Printable log: one <option> per state carries its requirement for log.js.
+LOG = "printable-driving-log.html"
+def option(i, n, t, ni):
+    none = i in NO_MINIMUM
+    return f'<option value="{i}" data-total="{t}" data-night="{0 if none else ni}"' + (' data-none="1"' if none else "") + f">{n}</option>"
+
+
+opts = "".join(option(i, n, t, ni) for i, n, t, ni, *_ in S)
+log_faq = [("Is there a free printable driving log for a learner's permit?", "Yes: pick your state above, add the student's name, and print it or save it as a PDF. Each row has the date, start and end time, minutes, night minutes, road and weather conditions, and the supervisor's initials."),
+           ("Can I use this log instead of the DMV form?", "Some states accept any written log signed by a parent; others want their own form, sometimes at the road test or with driver education. Check your state's DMV website, and copy your totals onto the official form if one is required."),
+           ("How do I count night hours?", "Night driving is between sunset and sunrise. Write the minutes driven after sunset in the night column: they count toward both the night requirement and the total."),
+           ("Is there an easier way than paper?", "Hourglass times each drive with one tap on iPhone, counts night minutes from the real sunset and sunrise, and exports a clean PDF log to sign. No account, no ads.")]
+log_ld = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in log_faq]}
+open(LOG, "w").write(f"""{HEAD}<title>Printable Driving Log for Learner's Permit (Free PDF, All 50 States) | Hourglass</title>
+<meta name="description" content="Free printable supervised driving log for teens with a learner's permit: pick your state, print or save as PDF. Columns for date, time, night minutes, conditions and supervisor initials.">
+<link rel="canonical" href="{BASE}{LOG}"><link rel="stylesheet" href="style.css"><script src="log.js" defer></script>
+<script type="application/ld+json">{json.dumps(log_ld, ensure_ascii=False)}</script></head>
+<body><main><img class="icon" src="icon.png" alt="">
+<h1>Printable driving log</h1>
+<p>A free supervised driving log for learner's permit practice. Pick your state to print its hour requirement at the top, then print it or save it as a PDF.</p>
+<form class="card" id="logForm"><div class="fields">
+<label>State<select id="logState"><option value="">Any state</option>{opts}</select></label>
+<label>Student name (optional)<input id="student" autocomplete="off"></label>
+<label>Rows<select id="rows"><option>25</option><option selected>40</option><option>60</option></select></label>
+</div><button type="button" id="print">Print or save as PDF</button></form>
+<div id="sheet"></div>
+<div class="cta"><p><strong>Paper logs get lost, and night minutes are easy to get wrong.</strong> Hourglass times each drive with one tap, counts night hours from real sunset and sunrise, and exports a clean PDF log to sign. On iPhone, no account, no ads.</p><a class="btn" href="https://apps.apple.com/app/id6818433938">Get Hourglass</a></div>
+{"".join(f"<h2>{q}</h2><p>{a}</p>" for q, a in log_faq)}
+<p><a href="driving-hours-by-state.html">Driving hours required in each state</a></p>
+<footer><a href="index.html">Hourglass</a> · <a href="privacy.html">Privacy</a> · © 2026 Lucas Dansac</footer></main></body></html>
+""")
 # Sitemap.
 sm = open("sitemap.xml").read()
 for _, n, *_ in S:
     loc = f"{BASE}states/{slug(n)}.html"
     if loc not in sm:
         sm = sm.replace("</urlset>", f"<url><loc>{loc}</loc><lastmod>2026-10-23</lastmod></url></urlset>")
+if f"{BASE}{LOG}" not in sm:
+    sm = sm.replace("</urlset>", f"<url><loc>{BASE}{LOG}</loc><lastmod>2026-10-23</lastmod></url></urlset>")
 open("sitemap.xml", "w").write(sm)
 print(len(S), "states")

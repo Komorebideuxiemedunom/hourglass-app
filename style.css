@@ -19,3 +19,13 @@ footer{margin-top:40px;font-size:14px;color:var(--muted)}.fields{display:grid;gr
 .facts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:center}.facts p{margin:0;color:var(--ink)}.facts strong{display:block;font-size:22px;color:var(--accent)}
 .others{font-size:14px;line-height:1.9}
 @media (max-width:560px){.facts{grid-template-columns:1fr}}
+#print{font:inherit;font-weight:700;border:0;border-radius:12px;padding:10px 16px;background:var(--accent);color:#fff;cursor:pointer;margin-top:14px}
+#sheet{background:#fff;color:#111;border-radius:12px;padding:22px;margin:22px 0;box-shadow:0 4px 16px rgba(0,0,0,.08);overflow-x:auto}
+#sheet h2{margin:0 0 4px;font-size:20px;color:#111}#sheet p{color:#333;margin:4px 0}#sheet .goal{font-weight:600}
+#sheet .who,#sheet .sign{display:flex;gap:18px;flex-wrap:wrap;margin:10px 0;font-size:14px}
+#sheet .who span,#sheet .sign span{flex:1;min-width:150px;white-space:nowrap}#sheet b{display:inline-block;min-width:90px;border-bottom:1px solid #444}
+#sheet table{width:100%;border-collapse:collapse;font-size:12px;min-width:560px}
+#sheet th,#sheet td{border:1px solid #888;padding:0 4px;height:24px;text-align:left;color:#111}#sheet th{background:#eee;font-size:11px}
+#sheet td:first-child{width:24px;text-align:center;color:#666}#sheet tfoot td{font-weight:700}#sheet .small{font-size:10px;color:#666}
+@media print{body{background:#fff}main>*:not(#sheet){display:none!important}main{padding:0;max-width:none}
+#sheet{box-shadow:none;margin:0;padding:0;border-radius:0;overflow:visible}#sheet tr{break-inside:avoid}@page{margin:12mm}}
