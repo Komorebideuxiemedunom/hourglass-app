@@ -100,10 +100,10 @@ def page(sid, name, total, night, months, note):
     ld_faq = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in faq]}
     return f"""{HEAD}<title>{title}</title>
 <meta name="description" content="{desc}">
-<link rel="canonical" href="{url}"><link rel="stylesheet" href="../style.css"><script src="../calc.js" defer></script>
+<link rel="canonical" href="{url}"><link rel="preload" href="../fonts/barlow-condensed-800.woff2" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="../style.css"><script src="../calc.js" defer></script>
 <script type="application/ld+json">{json.dumps(ld_app, ensure_ascii=False)}</script>
 <script type="application/ld+json">{json.dumps(ld_faq, ensure_ascii=False)}</script></head>
-<body data-mode="us" data-state="{sid}"><main><img class="icon" src="../icon.png" alt="">
+<body data-mode="us" data-state="{sid}"><main><a class="marque" href="../index.html"><img src="../icon.png" alt="">Hourglass</a>
 <h1>{name} learner's permit: driving hours</h1>
 <div class="card facts">{facts}</div>
 <p>{lead}</p>
@@ -126,7 +126,7 @@ for sid, name, total, night, months, note in S:
     open(f"states/{slug(name)}.html", "w").write(page(sid, name, total, night, months, note))
 
 # Table of the hub page.
-rows = "".join(f'<tr><td><a href="states/{slug(n)}.html">{n}</a></td><td>{"none" if i in NO_MINIMUM else f"{t} h"}</td><td>{"—" if not ni or i in NO_MINIMUM else f"{ni} h"}</td><td>{hold(m, i)}</td></tr>'
+rows = "".join(f'<tr><td><a href="states/{slug(n)}.html">{n}</a></td><td>{"none" if i in NO_MINIMUM else f"{t} h"}</td><td>{"n/a" if not ni or i in NO_MINIMUM else f"{ni} h"}</td><td>{hold(m, i)}</td></tr>'
                for i, n, t, ni, m, _ in S)
 hub = open("driving-hours-by-state.html").read()
 hub = re.sub(r"(<tbody>).*?(</tbody>)", lambda m: m.group(1) + rows + m.group(2), hub, count=1, flags=re.S)
@@ -154,9 +154,9 @@ log_faq = [("Is there a free printable driving log for a learner's permit?", "Ye
 log_ld = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in log_faq]}
 open(LOG, "w").write(f"""{HEAD}<title>Printable Driving Log for Learner's Permit (Free PDF, All 50 States) | Hourglass</title>
 <meta name="description" content="Free printable supervised driving log for teens with a learner's permit: pick your state, print or save as PDF. Columns for date, time, night minutes, conditions and supervisor initials.">
-<link rel="canonical" href="{BASE}{LOG}"><link rel="stylesheet" href="style.css"><script src="log.js" defer></script>
+<link rel="canonical" href="{BASE}{LOG}"><link rel="preload" href="fonts/barlow-condensed-800.woff2" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="style.css"><script src="log.js" defer></script>
 <script type="application/ld+json">{json.dumps(log_ld, ensure_ascii=False)}</script></head>
-<body><main><img class="icon" src="icon.png" alt="">
+<body><main><a class="marque" href="index.html"><img src="icon.png" alt="">Hourglass</a>
 <h1>Printable driving log</h1>
 <p>A free supervised driving log for learner's permit practice. Pick your state to print its hour requirement at the top, then print it or save it as a PDF.</p>
 <form class="card" id="logForm"><div class="fields">
