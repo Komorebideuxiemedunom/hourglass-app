@@ -73,16 +73,16 @@ def page(sid, name, total, night, months, note):
     none = sid in NO_MINIMUM
     night_txt = f", {night} of them at night" if night else ""
     if none:
-        title = f"{name} Learner's Permit Driving Hours (2026): No Minimum, Calculator | Hourglass"
-        desc = f"{name} sets no minimum of supervised driving hours with a learner's permit. Most families still aim for {total} hours, {night} at night. Free calculator: hours left and weekly pace."
+        title = f"{name} Driving Hours Calculator | Hourglass"
+        desc = f"Track supervised driving hours in {name} and calculate your weekly pace with Hourglass."
         answer = f"{name} does not set a minimum number of supervised driving hours. Most driving instructors still recommend about {total} hours, {night} of them at night, before the road test."
         facts = f'<p><strong>No minimum</strong> of supervised hours</p><p><strong>{total} hours</strong> recommended</p><p><strong>{hold(months, sid)}</strong> holding the permit</p>'
         lead = f"{name} does not require a set number of practice hours, but the road test still comes. Enter what's done so far to see where you stand against the usual {total}-hour goal."
     else:
-        title = f"{name} Learner's Permit Driving Hours (2026): {total} Hours, Calculator | Hourglass"
+        title = f"{name} Driving Hours Calculator | Hourglass"
         held = months or sid in HOLD
         hold_d = f" and {hold(months, sid)} with the learner's permit" if held else ""
-        desc = f"{name} requires {total} supervised driving hours{f' including {night} at night' if night else ''}{hold_d}. Free calculator: hours left and hours a week to be ready by the road test."
+        desc = f"Calculate your remaining supervised driving hours in {name} and plan your weekly practice."
         held = months or sid in HOLD
         answer = f"{name} asks for {total} hours of supervised driving{night_txt}" + (f", and at least {hold(months, sid)} holding the permit before the road test." if held else ", with no minimum holding period for the permit.")
         facts = f'<p><strong>{total} hours</strong> of supervised driving</p>' + (f'<p><strong>{night} hours</strong> at night</p>' if night else "") + (f'<p><strong>{hold(months, sid)}</strong> holding the permit</p>' if months or sid in HOLD else "<p><strong>No minimum</strong> time with the permit</p>")
